@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agricultural Advisory Service</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .service-container {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            max-width: 1000px;
+            width: 100%;
+            margin-top: 2rem;
+        }
+        .service-container h1 {
+            color: #2e8b57;
+            margin-bottom: 1rem;
+        }
+        .welcome-message {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .topics {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .topic {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            text-align: center;
+            width: 30%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .topic img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .topic:hover {
+            transform: scale(1.05);
+        }
+        .topic-title {
+            padding: 1rem;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="service-container">
+        <div class="welcome-message">
+            <h2>Welcome to Our Agricultural Advisory Service!</h2>
+            <p>We are excited to assist you with expert advice and insights to help you succeed in your farming endeavors. Explore the topics below to get started!</p>
+        </div>
+        <h1>Agricultural Advisory Service</h1>
+        <div class="topics">
+                        <div class="topic" onclick="location.href='market.html'">
+                <img src="market.jfif" alt="Market Trends and Pricing">
+                <div class="topic-title">Market Trends and Pricing</div>
+            </div>
+            <div class="topic" onclick="location.href=''">
+                <img src="crop.jfif" alt="Crop Selection and Rotation">
+                <div class="topic-title">Crop Selection and Rotation</div>
+            </div>
+            <div class="topic" onclick="location.href=''">
+                <img src="pest.jfif" alt="Pest and Disease Management">
+                <div class="topic-title">Pest and Disease Management</div>
+            </div>
+            <div class="topic" onclick="location.href=''">
+                <img src="Fertility.jfif" alt="Soil Health and Fertility">
+                <div class="topic-title">Soil Health and Fertility</div>
+            </div>
+            <div class="topic" onclick="location.href=''">
+                <img src="irrigation.jfif" alt="Water Management and Irrigation">
+                <div class="topic-title">Water Management and Irrigation</div>
+            </div>
+            <div class="topic" onclick="location.href=''">
+                <img src="mechanism.jfif" alt="Farm Mechanization and Technology">
+                <div class="topic-title">Farm Mechanization and Technology</div>
+            </div>
+
+            <div class="topic" onclick="location.href=''">
+                <img src="sustainable.jfif" alt="Sustainable Farming Practices">
+                <div class="topic-title">Sustainable Farming Practices</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -3,35 +3,187 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/style.css">
+  <title>AgriAdvice - Revolutionize Your Farming</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #ffffff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .nav-link {
+      color: #333;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+    .nav-link.active, .nav-link:hover {
+      color: #2e8b57;
+      font-weight: bold;
+    }
+    .btn-success {
+      background-color: #2e8b57;
+      border-color: #2e8b57;
+      border-radius: 30px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1.125rem;
+    }
+    .btn-success:hover {
+      background-color: #1f6d44;
+      border-color: #1f6d44;
+    }
+    .header-img {
+      max-height: 50px;
+    }
+    .hero-section {
+      position: relative;
+      background: url('/image/farmers1.webp') no-repeat center center;
+      background-size: cover;
+      color: #fff;
+      text-align: center;
+      padding: 6rem 1rem;
+      border-bottom: 1px solid #ddd;
+    }
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* Dark overlay for better text visibility */
+      z-index: 1;
+    }
+    .hero-section .container {
+      position: relative;
+      z-index: 2;
+      background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background */
+      padding: 2rem;
+      border-radius: 10px;
+    }
+    .hero-section h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    .hero-section p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .features {
+      padding: 4rem 1rem;
+      background-color: #ffffff;
+      text-align: center;
+    }
+    .features h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .feature-item {
+      margin-bottom: 2rem;
+    }
+    .feature-item img {
+      max-width: 100px;
+      margin-bottom: 1rem;
+    }
+    .contact {
+      padding: 4rem 1rem;
+      background-color: #2e8b57;
+      color: #fff;
+      text-align: center;
+    }
+    .contact h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .contact p {
+      font-size: 1.125rem;
+      margin-bottom: 2rem;
+    }
+    .contact .btn {
+      margin-top: 1rem;
+    }
+    footer {
+      background-color: #2e8b57;
+      color: #fff;
+      padding: 1rem 0;
+      text-align: center;
+    }
+    footer p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+    @media (max-width: 768px) {
+      .hero-section h1 {
+        font-size: 2.5rem;
+      }
+      .hero-section p {
+        font-size: 1rem;
+      }
+      .features h2 {
+        font-size: 1.5rem;
+      }
+      .contact h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="bg-white text-white shadow sticky-top">
+  <header class="bg-white text-dark shadow sticky-top">
     <div class="container d-flex justify-content-between align-items-center py-3">
-      <img src="image/agri advice svg.svg" alt="" class="img-fluid" >
+      <img src="adviceImage.svg" alt="AgriAdvice Logo" class="header-img">
       <nav class="nav">
         <a class="nav-link active" href="#">Home</a>
-        <a class="nav-link" href="#">Recommendations</a>
-        <a class="nav-link" href="#">Alerts</a>
-        <a class="nav-link" href="#">Market Analysis</a>
+        <a class="nav-link" href="#">Features</a>
+        <a class="nav-link" href="#">Pricing</a>
+        <a class="nav-link" href="#">Contact</a>
+        <a class="nav-link" href="signin.html">Sign In</a>
       </nav>
     </div>
   </header>
-  <section class="container py-5">
-    <div class="row align-items-center">
-      <div class="col-md-6 order-md-2">
-        <img src="/image/farmers1.webp" alt="Farmer using smartphone in field" class="img-fluid rounded">
-      </div>
-      <div class="col-md-6 order-md-1">
-        <h1>Empowering Farmers with AI</h1>
-        <p class="lead">Increase crop yields, manage risks, and maximize profits with our AI-powered agricultural advisory platform.</p>
-        <a href="#" class="btn btn-lg btn-success">Get Started Today</a>
+  <section class="hero-section">
+    <div class="container">
+      <h1>Revolutionize Your Farming with AI</h1>
+      <p class="lead">Harness the power of artificial intelligence to boost your crop yields, manage risks, and optimize your farming practices.</p>
+      <a href="subscription.html" class="btn btn-lg btn-success">Get Started Today</a>
+    </div>
+  </section>
+  <section class="features">
+    <div class="container">
+      <h2>Why Choose AgriAdvice?</h2>
+      <div class="row">
+        <div class="col-md-4 feature-item">
+          <img src="advanced anal.jfif" alt="Feature 1">
+          <h3>Advanced Analytics</h3>
+          <p>Gain insights into your crops and soil with our powerful analytics tools.</p>
+        </div>
+        <div class="col-md-4 feature-item">
+          <img src="alerts.jfif" alt="Feature 2">
+          <h3>Real-Time Alerts</h3>
+          <p>Receive timely notifications about weather, pests, and other critical factors.</p>
+        </div>
+        <div class="col-md-4 feature-item">
+          <img src="Recommendation.png" alt="Feature 3">
+          <h3>Personalized Recommendations</h3>
+          <p>Get tailored advice on crop selection, planting techniques, and more.</p>
+        </div>
       </div>
     </div>
   </section>
-  <footer class="text-center py-3 bg-light">
+  <section class="contact">
+    <div class="container">
+      <h2>Get in Touch</h2>
+      <p>Have questions or need support? Contact us to learn more about how AgriAdvice can help you achieve your farming goals.</p>
+      <a href="contact.html" class="btn btn-lg btn-light">Contact Us</a>
+    </div>
+  </section>
+  <footer>
     <p>&copy; 2024 AgriAdvice. All Rights Reserved.</p>
   </footer>
 </body>

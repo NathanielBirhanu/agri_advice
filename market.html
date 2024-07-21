@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agriculture Market Trends Analysis</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #1b5e20;
+      color: white;
+      padding: 20px;
+    }
+    .container {
+      padding: 20px;
+    }
+    .chart-container {
+      position: relative;
+      height: 300px;
+      margin-bottom: 20px;
+    }
+    .charts {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+    .input-container {
+      margin: 20px;
+    }
+    .input-container input,
+    .input-container select,
+    .input-container button {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #1b5e20;
+      border-radius: 5px;
+      margin: 5px;
+    }
+    .input-container button {
+      background-color: #1b5e20;
+      color: white;
+      cursor: pointer;
+    }
+    .input-container button:hover {
+      background-color: #2e7d32;
+    }
+    .recommendations {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    .login-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+    .login-container form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: left;
+    }
+    .login-container form input {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .search-suggestions {
+      position: relative;
+      display: inline-block;
+    }
+    .search-suggestions ul {
+      position: absolute;
+      background-color: white;
+      border: 1px solid #1b5e20;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      z-index: 1000;
+      max-height: 100px;
+      overflow-y: auto;
+    }
+    .search-suggestions li {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .search-suggestions li:hover {
+      background-color: #e8f5e9;
+    }
+    .alert {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #ffeb3b;
+      color: #333;
+      padding: 15px;
+      border: 1px solid #fbc02d;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agriculture Market Trends Analysis</h1>
+  </header>
+  <div class="container">
+    <div class="charts">
+      <div class="chart-container">
+        <h2>Top 10 Vegetables</h2>
+        <canvas id="vegetableTrendsChart" width="400" height="200"></canvas>
+      </div>
+      <div class="chart-container">
+        <h2>Top 10 Fruits</h2>
+        <canvas id="fruitTrendsChart" width="400" height="200"></canvas>
+      </div>
+    </div>
+    <div class="input-container">
+      <div class="search-suggestions">
+        <input type="text" id="cropInput" placeholder="Enter a fruit or vegetable" oninput="showSuggestions(this.value)" />
+        <ul id="suggestions"></ul>
+      </div>
+      <button onclick="fetchCropData()">Analyze</button>
+    </div>
+    <div class="time-frame-selector">
+      <label for="timeFrame">Select Time Frame: </label>
+      <select id="timeFrame" onchange="fetchCropData()">
+        <option value="3months">3 Months</option>
+        <option value="1year">1 Year</option>
+        <option value="5years">5 Years</option>
+      </select>
+    </div>
+    <h2 id="chartTitle">Price Trends</h2>
+    <div class="chart-container">
+      <canvas id="cropPriceChart" width="400" height="200"></canvas>
+    </div>
+    <div class="recommendations" id="recommendations"></div>
+  </div>
+
+  <div class="login-container" id="loginContainer">
+    <form onsubmit="login(event)">
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+      <button type="button" onclick="closeLogin()">Cancel</button>
+    </form>
+  </div>
+
+  <div id="autoAlert" class="alert"></div>
+
+  <script>
+    const globalData = {
+      apple: { type: 'fruit', basePrice: 30, priceFluctuation: 10, recommendations: "Apples are most profitable in the fall. Harvest in early fall for the best market rates." },
+      banana: { type: 'fruit', basePrice: 12, priceFluctuation: 4, recommendations: "Bananas are in high demand during the summer. Ideal for planting in early spring." },
+      orange: { type: 'fruit', basePrice: 20, priceFluctuation: 5, recommendations: "Oranges are most profitable in the winter. Plant in late summer to prepare for winter harvest." },
+      grape: { type: 'fruit', basePrice: 25, priceFluctuation: 6, recommendations: "Grapes are best planted in early spring for a summer harvest. Prices peak in late summer." },
+      lettuce: { type: 'vegetable', basePrice: 8, priceFluctuation: 3, recommendations: "Lettuce is a staple throughout the year. Ideal for staggered planting for continuous supply." },
+      potato: { type: 'vegetable', basePrice: 10, priceFluctuation: 5, recommendations: "Potatoes are in high demand during the winter season. Consider planting in late summer for the best yield." },
+      tomato: { type: 'vegetable', basePrice: 15, priceFluctuation: 5, recommendations: "Tomatoes fetch higher prices in the spring. Plant in early spring for maximum profit." },
+      carrot: { type: 'vegetable', basePrice: 5, priceFluctuation: 2, recommendations: "Carrots are stable in price throughout the year. Suitable for continuous planting." },
+      cucumber: { type: 'vegetable', basePrice: 7, priceFluctuation: 3, recommendations: "Cucumbers are in demand during the summer. Plant in early spring for a summer harvest." },
+      bellPepper: { type: 'vegetable', basePrice: 9, priceFluctuation: 4, recommendations: "Bell peppers have high demand in the summer. Ideal for spring planting." },
+      strawberry: { type: 'fruit', basePrice: 25, priceFluctuation: 7, recommendations: "Strawberries are best planted in early spring for a summer harvest. Prices peak in late spring." },
+      watermelon: { type: 'fruit', basePrice: 18, priceFluctuation: 6, recommendations: "Watermelons are in high demand in the summer. Plant in early spring for a summer harvest." },
+      pineapple: { type: 'fruit', basePrice: 35, priceFluctuation: 8, recommendations: "Pineapples are best harvested in the winter. Plant in late summer for a winter harvest." },
+      pear: { type: 'fruit', basePrice: 15, priceFluctuation: 5, recommendations: "Pears are most profitable in the fall. Plant in late spring for the best results." },
+      blueberry: { type: 'fruit', basePrice: 40, priceFluctuation: 10, recommendations: "Blueberries are ideal for early summer harvest. Plant in early spring for optimal yield." }
+    };
+
+    let vegetableTrendsChartInstance;
+    let fruitTrendsChartInstance;
+    let cropPriceChartInstance;
+    let previousTopVegetableName = '';
+    let previousTopFruitName = '';
+
+    function getDynamicDates(timeFrame) {
+      const today = new Date();
+      let startDate;
+      switch (timeFrame) {
+        case '3months':
+          startDate = new Date(today.getFullYear(), today.getMonth() - 3, 1);
+          break;
+        case '1year':
+          startDate = new Date(today.getFullYear() - 1, today.getMonth(), 1);
+          break;
+        case '5years':
+          startDate = new Date(today.getFullYear() - 5, today.getMonth(), 1);
+          break;
+        default:
+          startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+      }
+
+      const dates = [];
+      for (let d = startDate; d <= today; d.setMonth(d.getMonth() + 1)) {
+        dates.push(d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }));
+      }
+
+      return dates;
+    }
+
+    function showAlert(message) {
+      const alertDiv = document.getElementById('autoAlert');
+      alertDiv.textContent = message;
+      alertDiv.style.display = 'block';
+      setTimeout(() => {
+        alertDiv.style.display = 'none';
+      }, 2000);
+    }
+
+    function updateTop10Charts() {
+      try {
+        const vegetableLabels = ['Lettuce', 'Potato', 'Tomato', 'Carrot', 'Cucumber', 'Bell Pepper'];
+        const vegetablePrices = vegetableLabels.map(veg => globalData[veg.toLowerCase()] ? globalData[veg.toLowerCase()].basePrice + Math.random() * 10 - 5 : 0);
+
+        const currentTopVegetableValue = Math.max(...vegetablePrices);
+        const currentTopVegetableIndex = vegetablePrices.indexOf(currentTopVegetableValue);
+        const currentTopVegetableName = vegetableLabels[currentTopVegetableIndex];
+
+        if (previousTopVegetableName && currentTopVegetableName !== previousTopVegetableName) {
+          showAlert(`New top vegetable: ${currentTopVegetableName} surpasses ${previousTopVegetableName}!`);
+        }
+
+        previousTopVegetableName = currentTopVegetableName;
+
+        if (vegetableTrendsChartInstance) {
+          vegetableTrendsChartInstance.data.datasets[0].data = vegetablePrices;
+          vegetableTrendsChartInstance.update();
+        } else {
+          vegetableTrendsChartInstance = new Chart(document.getElementById('vegetableTrendsChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+              labels: vegetableLabels,
+              datasets: [{
+                label: 'Price ($)',
+                data: vegetablePrices,
+                backgroundColor: '#4caf50',
+                borderColor: '#1b5e20',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                x: { title: { display: true, text: 'Vegetable' }},
+                y: { title: { display: true, text: 'Price ($)' }}
+              }
+            }
+          });
+        }
+
+        const fruitLabels = ['Apple', 'Banana', 'Orange', 'Grape', 'Strawberry', 'Watermelon'];
+        const fruitPrices = fruitLabels.map(fruit => globalData[fruit.toLowerCase()] ? globalData[fruit.toLowerCase()].basePrice + Math.random() * 10 - 5 : 0);
+
+        const currentTopFruitValue = Math.max(...fruitPrices);
+        const currentTopFruitIndex = fruitPrices.indexOf(currentTopFruitValue);
+        const currentTopFruitName = fruitLabels[currentTopFruitIndex];
+
+        if (previousTopFruitName && currentTopFruitName !== previousTopFruitName) {
+          showAlert(`New top fruit: ${currentTopFruitName} surpasses ${previousTopFruitName}!`);
+        }
+
+        previousTopFruitName = currentTopFruitName;
+
+        if (fruitTrendsChartInstance) {
+          fruitTrendsChartInstance.data.datasets[0].data = fruitPrices;
+          fruitTrendsChartInstance.update();
+        } else {
+          fruitTrendsChartInstance = new Chart(document.getElementById('fruitTrendsChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+              labels: fruitLabels,
+              datasets: [{
+                label: 'Price ($)',
+                data: fruitPrices,
+                backgroundColor: '#ff7043',
+                borderColor: '#bf360c',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                x: { title: { display: true, text: 'Fruit' }},
+                y: { title: { display: true, text: 'Price ($)' }}
+              }
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error updating charts:', error);
+      }
+    }
+
+    function fetchCropData() {
+      const cropInput = document.getElementById('cropInput').value.toLowerCase();
+      const timeFrame = document.getElementById('timeFrame').value;
+      const dates = getDynamicDates(timeFrame);
+      const chartTitle = document.getElementById('chartTitle');
+      const recommendationsDiv = document.getElementById('recommendations');
+
+      if (globalData[cropInput]) {
+        const crop = globalData[cropInput];
+        const prices = dates.map(date => crop.basePrice + Math.random() * crop.priceFluctuation - crop.priceFluctuation / 2);
+        
+        if (cropPriceChartInstance) {
+          cropPriceChartInstance.data.labels = dates;
+          cropPriceChartInstance.data.datasets[0].data = prices;
+          cropPriceChartInstance.update();
+        } else {
+          cropPriceChartInstance = new Chart(document.getElementById('cropPriceChart').getContext('2d'), {
+            type: 'line',
+            data: {
+              labels: dates,
+              datasets: [{
+                label: `Price Trend for ${cropInput.charAt(0).toUpperCase() + cropInput.slice(1)}`,
+                data: prices,
+                borderColor: '#1b5e20',
+                backgroundColor: 'rgba(27, 94, 32, 0.2)',
+                fill: true
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                x: { title: { display: true, text: 'Date' }},
+                y: { title: { display: true, text: 'Price ($)' }}
+              }
+            }
+          });
+        }
+
+        chartTitle.textContent = `Price Trends for ${cropInput.charAt(0).toUpperCase() + cropInput.slice(1)}`;
+        recommendationsDiv.textContent = crop.recommendations;
+      } else {
+        recommendationsDiv.textContent = 'No data available for the entered crop.';
+      }
+    }
+
+    function showSuggestions(value) {
+      const suggestionsList = document.getElementById('suggestions');
+      suggestionsList.innerHTML = '';
+      const suggestions = Object.keys(globalData).filter(crop => crop.includes(value));
+      suggestions.forEach(suggestion => {
+        const li = document.createElement('li');
+        li.textContent = suggestion.charAt(0).toUpperCase() + suggestion.slice(1);
+        li.onclick = () => {
+          document.getElementById('cropInput').value = suggestion;
+          suggestionsList.innerHTML = '';
+          fetchCropData();
+        };
+        suggestionsList.appendChild(li);
+      });
+    }
+
+    function openLogin() {
+      document.getElementById('loginContainer').style.display = 'flex';
+    }
+
+    function closeLogin() {
+      document.getElementById('loginContainer').style.display = 'none';
+    }
+
+    function login(event) {
+      event.preventDefault();
+      // Handle login logic here
+      closeLogin();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateTop10Charts();
+      setInterval(updateTop10Charts, 5000); // Update charts every 5 seconds
+    });
+  </script>
+</body>
+</html>
+
+

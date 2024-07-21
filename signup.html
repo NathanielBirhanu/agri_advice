@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eaf5ea;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .signup-container {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 16px; /* Curved borders */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1rem; /* Reduced padding */
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        .signup-container h1 {
+            color: #2e8b57;
+            margin-bottom: 0.5rem; /* Reduced margin */
+        }
+        .input-group {
+            margin-bottom: 0.75rem; /* Reduced margin */
+            text-align: left;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.25rem; /* Reduced margin */
+        }
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            max-width: 300px; /* Adjusted width */
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .signup-button {
+            background-color: #2e8b57;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 300px; /* Adjusted width */
+        }
+        .signup-button:hover {
+            background-color: #256d45;
+        }
+        .footer {
+            margin-top: 0.5rem; /* Reduced margin */
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .mobile-input-container {
+            display: flex;
+            justify-content: center;
+            max-width: 300px;
+            width: 100%;
+        }
+        .mobile-input-container select {
+            max-width: 100px; 
+            margin-right: 0.5rem;
+        }
+        .mobile-input-container input {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h1>Sign Up</h1>
+        <div class="input-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="input-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div class="input-group">
+            <label for="repassword">Re-enter Password</label>
+            <input type="password" id="repassword" name="repassword" required>
+        </div>
+        <div class="input-group">
+            <label for="mobile">Mobile Number</label>
+            <div class="mobile-input-container">
+                <select id="country-code" name="country-code" required>
+                    <option value="+1">+1</option>
+                    <option value="+44">+44</option>
+                    <option value="+91">+91</option>
+                    <!-- Add more country codes as needed -->
+                </select>
+                <input type="tel" id="mobile" name="mobile" required>
+            </div>
+        </div>
+        <button class="signup-button" onclick="redirectToPayment()">Create Account</button>
+        <div class="footer">
+            Already have an account? <a href="signin.html" style="color: #2e8b57;">Sign In</a>
+        </div>
+    </div>
+    <script>
+        function redirectToPayment() {
+            window.location.href = 'payment.html';
+        }
+    </script>
+</body>
+</html>
+

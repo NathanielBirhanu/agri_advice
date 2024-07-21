@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Packages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eaf5ea;
+            color: #333;
+        }
+        .header {
+            background-color: #2e8b57;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .package {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 1rem;
+            max-width: 300px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .package:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .package h2 {
+            color: #2e8b57;
+        }
+        .price {
+            font-size: 2rem;
+            margin: 1rem 0;
+        }
+        .features {
+            list-style: none;
+            padding: 0;
+        }
+        .features li {
+            padding: 0.5rem 0;
+        }
+        .subscribe-button {
+            background-color: #2e8b57;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s;
+        }
+        .subscribe-button:hover {
+            background-color: #256d45;
+        }
+    </style>
+    <script>
+        function redirectToSignup() {
+            window.location.href = 'signup.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1>Choose Your Subscription Package</h1>
+    </div>
+    <div class="container">
+        <div class="package">
+            <h2>Basic Tier</h2>
+            <div class="price">R999.99/month</div>
+            <ul class="features">
+                <li>Access to all content</li>
+                <li>Essential Features for small-scale farmers</li>
+                <li>Standard Definition</li>
+                <li>1 Device at a time</li>
+            </ul>
+            <button class="subscribe-button" onclick="redirectToSignup()">Subscribe</button>
+        </div>
+        <div class="package">
+            <h2>Premium Tier</h2>
+            <div class="price">R1 499.99/month</div>
+            <ul class="features">
+                <li>Access to all content</li>
+                <li>Advanced analytics and real-time alerts for medium-scale farmers</li>
+                <li>High Definition</li>
+                <li>2 Devices at a time</li>
+            </ul>
+            <button class="subscribe-button" onclick="redirectToSignup()">Subscribe</button>
+        </div>
+        <div class="package">
+            <h2>Enterprise Tier</h2>
+            <div class="price">R1 999.99/month</div>
+            <ul class="features">
+                <li>Access to all content</li>
+                <li>Comprehensive services for large-scale farmers or cooperatives</li>
+                <li>Ultra High Definition</li>
+                <li>4 Devices at a time</li>
+            </ul>
+            <button class="subscribe-button" onclick="redirectToSignup()">Subscribe</button>
+        </div>
+    </div>
+</body>
+</html>
